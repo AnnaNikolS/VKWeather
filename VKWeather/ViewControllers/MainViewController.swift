@@ -9,14 +9,17 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    //MARK: - Properties
     var weatherCollectionView: UICollectionView!
     var currentWeatherView: UIView!
     var backgroundImageView: UIImageView!
-    var rainEmitterLayer: RainEmitterLayer?
+    var rainEmitterLayer: RainView?
+    var lightningAnimationView: ThunderstormView?
     var animationContainerView: UIView!
     
     let weatherTypes: [WeatherType] = [.clear, .cloudy, .overcast, .rain, .thunderstorm, .rainbow]
     
+    //MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBackgroundImageView()
@@ -26,6 +29,8 @@ class MainViewController: UIViewController {
         displayRandomWeather()
     }
     
+    //MARK: - Methods
+    /// установка фонового изображения
     func setupBackgroundImageView() {
         backgroundImageView = UIImageView(frame: .zero)
         backgroundImageView.contentMode = .scaleAspectFill
@@ -40,6 +45,7 @@ class MainViewController: UIViewController {
         ])
     }
     
+    /// настройка коллекции
     func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -51,7 +57,8 @@ class MainViewController: UIViewController {
         weatherCollectionView.backgroundColor = .clear
         weatherCollectionView.layer.cornerRadius = 24
         
-        let blur = UIBlurEffect(style: .dark)
+        /// блюр эффект для плашки с коллекцией
+        let blur = UIBlurEffect(style: .light)
         let blurView = UIVisualEffectView(effect: blur)
         blurView.frame = weatherCollectionView.bounds
         weatherCollectionView.backgroundView = blurView
@@ -66,6 +73,7 @@ class MainViewController: UIViewController {
         ])
     }
     
+    /// установка текущих погодных условий
     func setupCurrentWeatherView() {
         currentWeatherView = UIView()
         currentWeatherView.translatesAutoresizingMaskIntoConstraints = false
@@ -78,9 +86,9 @@ class MainViewController: UIViewController {
             currentWeatherView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-
+    
     func setupAnimationContainerView() {
-        animationContainerView = UIView()
+        animationContainerView = ThunderstormView(frame: view.bounds)
         animationContainerView.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(animationContainerView, belowSubview: weatherCollectionView)
         
@@ -92,6 +100,7 @@ class MainViewController: UIViewController {
         ])
     }
     
+    /// установка рандомной погоды
     func displayRandomWeather() {
         let randomWeather = weatherTypes.randomElement()!
         displayWeather(randomWeather)
@@ -100,16 +109,25 @@ class MainViewController: UIViewController {
     func displayWeather(_ weather: WeatherType) {
         updateBackgroundImage(for: weather)
         
-        if weather == .rain {
+        // Управление анимацией дождя
+        if weather == .rain || weather == .thunderstorm {
             startRainAnimation()
         } else {
             stopRainAnimation()
         }
+        
+        // Управление анимацией молнии
+        if weather == .thunderstorm {
+            startThunderstormAnimation()
+        } else {
+            stopThunderstormAnimation()
+        }
     }
     
+    /// обновление фонового изображения
     func updateBackgroundImage(for weather: WeatherType) {
         var backgroundImageName: String
-
+        
         switch weather {
         case .clear:
             backgroundImageName = "backSUI"
@@ -120,11 +138,11 @@ class MainViewController: UIViewController {
         case .rain:
             backgroundImageName = "rainBack"
         case .thunderstorm:
-            backgroundImageName = "backSUI"
+            backgroundImageName = "thunderstormBack"
         case .rainbow:
             backgroundImageName = "backSUI"
         }
-
+        
         if let backgroundImage = UIImage(named: backgroundImageName) {
             UIView.transition(with: self.backgroundImageView,
                               duration: 0.5,
@@ -133,12 +151,12 @@ class MainViewController: UIViewController {
                 self?.backgroundImageView.image = backgroundImage
             }, completion: nil)
         }
-       
     }
-
+    
+    /// анимация погодных условий
     func startRainAnimation() {
         if rainEmitterLayer == nil {
-            let rainLayer = RainEmitterLayer()
+            let rainLayer = RainView()
             rainLayer.frame = animationContainerView.bounds
             animationContainerView.layer.addSublayer(rainLayer)
             rainEmitterLayer = rainLayer
@@ -149,16 +167,29 @@ class MainViewController: UIViewController {
         rainEmitterLayer?.removeFromSuperlayer()
         rainEmitterLayer = nil
     }
-}
-
-extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return weatherTypes.count
+    func startThunderstormAnimation() {
+        if lightningAnimationView == nil {
+            let lightningView = ThunderstormView(frame:animationContainerView.bounds)
+            animationContainerView.addSubview(lightningView)
+            lightningAnimationView = lightningView
+        }
+        lightningAnimationView?.startLightningAnimation()
     }
     
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        collectionView.showsHorizontalScrollIndicator = false
+    func stopThunderstormAnimation() {
+        lightningAnimationView?.stopLightningAnimation()
+        lightningAnimationView?.removeFromSuperview()
+        lightningAnimationView = nil
+    }
+}
+
+//MARK: - MainViewController
+extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    //MARK: - UICollectionViewDataSource
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return weatherTypes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -169,17 +200,21 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return cell
     }
     
+    //MARK: - UICollectionViewDelegate
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        collectionView.showsHorizontalScrollIndicator = false
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedWeather = weatherTypes[indexPath.item]
         displayWeather(selectedWeather)
     }
     
+    //MARK: - UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 80, height: 80)
     }
 }
-
-
 
 #Preview {
     MainViewController()

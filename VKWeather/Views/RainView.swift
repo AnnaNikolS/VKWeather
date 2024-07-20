@@ -1,5 +1,5 @@
 //
-//  RainEmitterLayer.swift
+//  RainView.swift
 //  VKWeather
 //
 //  Created by Анна on 18.07.2024.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RainEmitterLayer: CAEmitterLayer {
+class RainView: CAEmitterLayer {
     
     override init() {
         super.init()

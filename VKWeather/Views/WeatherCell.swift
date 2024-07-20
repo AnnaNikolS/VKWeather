@@ -9,8 +9,10 @@ import UIKit
 
 class WeatherCell: UICollectionViewCell {
     
+    //MARK: - Properties
     let imageView = UIImageView()
     
+    //MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupImageView()
@@ -20,6 +22,7 @@ class WeatherCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Methods
     func setupImageView() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.tintColor = .white

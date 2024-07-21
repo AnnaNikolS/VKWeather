@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		E60D65BC2C4BF0C300BE3740 /* StormAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60D65BB2C4BF0C300BE3740 /* StormAnimationView.swift */; };
-		E60D65BE2C4BFDCC00BE3740 /* CloudEmitterLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60D65BD2C4BFDCC00BE3740 /* CloudEmitterLayer.swift */; };
 		E60D65C02C4C1CF200BE3740 /* SunAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60D65BF2C4C1CF200BE3740 /* SunAnimationView.swift */; };
 		E65A33222C484B71000741D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65A33212C484B71000741D3 /* AppDelegate.swift */; };
 		E65A33242C484B71000741D3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65A33232C484B71000741D3 /* SceneDelegate.swift */; };
@@ -16,16 +15,18 @@
 		E65A332B2C484B74000741D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E65A332A2C484B74000741D3 /* Assets.xcassets */; };
 		E65A333B2C485508000741D3 /* WeatherType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65A333A2C485508000741D3 /* WeatherType.swift */; };
 		E65A333F2C4857A6000741D3 /* WeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65A333E2C4857A6000741D3 /* WeatherCell.swift */; };
-		E65A33412C48803E000741D3 /* RainEmitterLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65A33402C48803E000741D3 /* RainEmitterLayer.swift */; };
 		E68747CF2C4D64E300E40644 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E68747CD2C4D64E300E40644 /* Localizable.strings */; };
 		E68747D22C4D66CD00E40644 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747D12C4D66CD00E40644 /* String+extension.swift */; };
-		E68747D52C4D792A00E40644 /* SnowEmitterLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747D42C4D792A00E40644 /* SnowEmitterLayer.swift */; };
-		E68747D72C4DA43400E40644 /* FogEmitterLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747D62C4DA43400E40644 /* FogEmitterLayer.swift */; };
+		E68747DB2C4DBB6F00E40644 /* EmitterConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747DA2C4DBB6F00E40644 /* EmitterConfigurable.swift */; };
+		E68747DD2C4DBB9F00E40644 /* RainEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747DC2C4DBB9F00E40644 /* RainEmitter.swift */; };
+		E68747DF2C4DBBBE00E40644 /* CloudEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747DE2C4DBBBE00E40644 /* CloudEmitter.swift */; };
+		E68747E12C4DBBD200E40644 /* SnowEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747E02C4DBBD200E40644 /* SnowEmitter.swift */; };
+		E68747E32C4DBC0400E40644 /* FogEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747E22C4DBC0400E40644 /* FogEmitter.swift */; };
+		E68747E52C4DC00200E40644 /* EmitterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747E42C4DC00200E40644 /* EmitterFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E60D65BB2C4BF0C300BE3740 /* StormAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StormAnimationView.swift; sourceTree = "<group>"; };
-		E60D65BD2C4BFDCC00BE3740 /* CloudEmitterLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudEmitterLayer.swift; sourceTree = "<group>"; };
 		E60D65BF2C4C1CF200BE3740 /* SunAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunAnimationView.swift; sourceTree = "<group>"; };
 		E65A331E2C484B71000741D3 /* VKWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E65A33212C484B71000741D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -35,12 +36,15 @@
 		E65A332F2C484B74000741D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E65A333A2C485508000741D3 /* WeatherType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherType.swift; sourceTree = "<group>"; };
 		E65A333E2C4857A6000741D3 /* WeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCell.swift; sourceTree = "<group>"; };
-		E65A33402C48803E000741D3 /* RainEmitterLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RainEmitterLayer.swift; sourceTree = "<group>"; };
 		E68747CE2C4D64E300E40644 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E68747D02C4D650600E40644 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E68747D12C4D66CD00E40644 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
-		E68747D42C4D792A00E40644 /* SnowEmitterLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnowEmitterLayer.swift; sourceTree = "<group>"; };
-		E68747D62C4DA43400E40644 /* FogEmitterLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogEmitterLayer.swift; sourceTree = "<group>"; };
+		E68747DA2C4DBB6F00E40644 /* EmitterConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmitterConfigurable.swift; sourceTree = "<group>"; };
+		E68747DC2C4DBB9F00E40644 /* RainEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RainEmitter.swift; sourceTree = "<group>"; };
+		E68747DE2C4DBBBE00E40644 /* CloudEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudEmitter.swift; sourceTree = "<group>"; };
+		E68747E02C4DBBD200E40644 /* SnowEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnowEmitter.swift; sourceTree = "<group>"; };
+		E68747E22C4DBC0400E40644 /* FogEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogEmitter.swift; sourceTree = "<group>"; };
+		E68747E42C4DC00200E40644 /* EmitterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmitterFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,13 +77,15 @@
 		E65A33202C484B71000741D3 /* VKWeather */ = {
 			isa = PBXGroup;
 			children = (
-				E68747CD2C4D64E300E40644 /* Localizable.strings */,
 				E65A33352C484BFA000741D3 /* Models */,
 				E65A33362C484C0A000741D3 /* ViewControllers */,
 				E65A33372C484C24000741D3 /* Views */,
+				E68747D92C4DBACB00E40644 /* Emitters */,
+				E68747D82C4DBAAC00E40644 /* Factories */,
 				E68747D32C4D6B3900E40644 /* Extensions */,
 				E65A33392C484C82000741D3 /* App */,
 				E65A33382C484C6F000741D3 /* Resources */,
+				E68747CD2C4D64E300E40644 /* Localizable.strings */,
 			);
 			path = VKWeather;
 			sourceTree = "<group>";
@@ -88,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				E65A333A2C485508000741D3 /* WeatherType.swift */,
+				E68747DA2C4DBB6F00E40644 /* EmitterConfigurable.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -104,10 +111,6 @@
 			isa = PBXGroup;
 			children = (
 				E65A333E2C4857A6000741D3 /* WeatherCell.swift */,
-				E65A33402C48803E000741D3 /* RainEmitterLayer.swift */,
-				E60D65BD2C4BFDCC00BE3740 /* CloudEmitterLayer.swift */,
-				E68747D42C4D792A00E40644 /* SnowEmitterLayer.swift */,
-				E68747D62C4DA43400E40644 /* FogEmitterLayer.swift */,
 				E60D65BB2C4BF0C300BE3740 /* StormAnimationView.swift */,
 				E60D65BF2C4C1CF200BE3740 /* SunAnimationView.swift */,
 			);
@@ -138,6 +141,25 @@
 				E68747D12C4D66CD00E40644 /* String+extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		E68747D82C4DBAAC00E40644 /* Factories */ = {
+			isa = PBXGroup;
+			children = (
+				E68747E42C4DC00200E40644 /* EmitterFactory.swift */,
+			);
+			path = Factories;
+			sourceTree = "<group>";
+		};
+		E68747D92C4DBACB00E40644 /* Emitters */ = {
+			isa = PBXGroup;
+			children = (
+				E68747DC2C4DBB9F00E40644 /* RainEmitter.swift */,
+				E68747DE2C4DBBBE00E40644 /* CloudEmitter.swift */,
+				E68747E02C4DBBD200E40644 /* SnowEmitter.swift */,
+				E68747E22C4DBC0400E40644 /* FogEmitter.swift */,
+			);
+			path = Emitters;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,16 +234,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				E60D65BC2C4BF0C300BE3740 /* StormAnimationView.swift in Sources */,
+				E68747E32C4DBC0400E40644 /* FogEmitter.swift in Sources */,
 				E65A33262C484B71000741D3 /* MainViewController.swift in Sources */,
-				E65A33412C48803E000741D3 /* RainEmitterLayer.swift in Sources */,
+				E68747E52C4DC00200E40644 /* EmitterFactory.swift in Sources */,
+				E68747DB2C4DBB6F00E40644 /* EmitterConfigurable.swift in Sources */,
 				E65A333F2C4857A6000741D3 /* WeatherCell.swift in Sources */,
-				E60D65BE2C4BFDCC00BE3740 /* CloudEmitterLayer.swift in Sources */,
 				E65A33222C484B71000741D3 /* AppDelegate.swift in Sources */,
-				E68747D72C4DA43400E40644 /* FogEmitterLayer.swift in Sources */,
 				E68747D22C4D66CD00E40644 /* String+extension.swift in Sources */,
 				E60D65C02C4C1CF200BE3740 /* SunAnimationView.swift in Sources */,
+				E68747DD2C4DBB9F00E40644 /* RainEmitter.swift in Sources */,
 				E65A333B2C485508000741D3 /* WeatherType.swift in Sources */,
-				E68747D52C4D792A00E40644 /* SnowEmitterLayer.swift in Sources */,
+				E68747DF2C4DBBBE00E40644 /* CloudEmitter.swift in Sources */,
+				E68747E12C4DBBD200E40644 /* SnowEmitter.swift in Sources */,
 				E65A33242C484B71000741D3 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -58,14 +58,14 @@ final class StormAnimationView: UIView {
         layer.addSublayer(lightningGlowLayer)
     }
     
-    /// запуск анимации вспышки
+    /// запуск анимации молнии
     func startLightningAnimation() {
         guard !isAnimating else { return }
         isAnimating = true
         animateLightning()
     }
     
-    /// остановка анимации вспышки
+    /// остановка анимации молнии
     func stopLightningAnimation() {
         isAnimating = false
         lightningLayer.path = nil

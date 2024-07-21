@@ -5,8 +5,13 @@
 //  Created by Анна on 17.07.2024.
 //
 
-import UIKit
+import Foundation
 
 enum WeatherType {
-    case clear, overcast, rain, storm, snow, wind
+    case clear
+    case overcast
+    case rain
+    case storm
+    case snow
+    case fog
 }

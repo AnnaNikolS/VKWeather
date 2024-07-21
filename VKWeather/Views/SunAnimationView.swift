@@ -32,6 +32,7 @@ final class SunAnimationView: UIView {
         addSubview(sunImageView)
     }
     
+    /// установка анимации вращения
     private func setupRotationAnimation() {
         let rotationAnimation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
         rotationAnimation.values = [1.5, CGFloat.pi / 1.5, 1.5]

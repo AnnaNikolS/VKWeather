@@ -74,7 +74,7 @@ final class WeatherCell: UICollectionViewCell {
         case .snow:
             imageView.image = UIImage(systemName: "cloud.snow.fill")
             label.text = "Snow".localized
-        case .wind:
+        case .fog:
             imageView.image = UIImage(systemName: "cloud.fog.fill")
             label.text = "Fog".localized
         }

@@ -16,14 +16,15 @@ final class MainViewController: UIViewController {
     private var animationContainerView: UIView!
     private var selectedIndexPath: IndexPath?
     
-    private var rainEmitterLayer: RainEmitterLayer?
-    private var cloudEmitterLayer: CloudEmitterLayer?
-    private var snowEmitterLayer: SnowEmitterLayer?
+    private var rainEmitterLayer: CAEmitterLayer?
+    private var cloudEmitterLayer: CAEmitterLayer?
+    private var snowEmitterLayer: CAEmitterLayer?
+    private var fogEmitterLayer: CAEmitterLayer?
+    
     private var stormAnimationView: StormAnimationView?
     private var sunAnimationView: SunAnimationView?
-    private var fogEmitterLayer: FogEmitterLayer?
     
-    private let weatherTypes: [WeatherType] = [.clear, .overcast, .rain, .storm, .snow, .wind]
+    private let weatherTypes: [WeatherType] = [.clear, .overcast, .rain, .storm, .snow, .fog]
     
     //MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -127,9 +128,9 @@ final class MainViewController: UIViewController {
         
         // Управление анимацией молнии
         if weather == .storm {
-            startThunderstormAnimation()
+            startStormAnimation()
         } else {
-            stopThunderstormAnimation()
+            stopStormAnimation()
         }
         
         // Управление анимацией облаков
@@ -139,35 +140,36 @@ final class MainViewController: UIViewController {
             stopCloudAnimation()
         }
         
+        /// управление анимацией солнца
         if weather == .clear {
             startSunAnimation()
         } else {
             stopSunAnimation()
         }
         
+        /// управление анимацией снега
         if weather == .snow {
             startSnowAnimation()
         } else {
             stopSnowAnimation()
         }
         
-        if weather == .wind {
+        /// управление анимацией тумана
+        if weather == .fog {
             startFogAnimation()
         } else {
             stopFogAnimation()
         }
         
-        // Перезагрузка коллекции и прокрутка к выбранному элементу, если это рандомный выбор
+        /// Перезагрузка коллекции и прокрутка к выбранному элементу, если это рандомный выбор
         weatherCollectionView.reloadData()
-        if isRandom, weather == .snow || weather == .wind {
+        if isRandom, weather == .snow || weather == .fog {
             DispatchQueue.main.async {
-                // Прокрутка до последнего элемента коллекции
                 let lastItemIndex = IndexPath(item: self.weatherTypes.count - 1, section: 0)
                 self.weatherCollectionView.scrollToItem(at: lastItemIndex, at: .right, animated: true)
             }
         } else if isRandom, let selectedIndexPath = selectedIndexPath {
             DispatchQueue.main.async {
-                // Убедитесь, что коллекция перезагружена и элементы видимы
                 let visibleIndexPaths = self.weatherCollectionView.indexPathsForVisibleItems
                 if !visibleIndexPaths.contains(selectedIndexPath) {
                     self.weatherCollectionView.scrollToItem(at: selectedIndexPath, at: .centeredHorizontally, animated: true)
@@ -188,13 +190,14 @@ final class MainViewController: UIViewController {
         case .rain:
             backgroundImageName = "rainBack"
         case .storm:
-            backgroundImageName = "thunderstormBack"
+            backgroundImageName = "stormBack"
         case .snow:
             backgroundImageName = "snowBack"
-        case .wind:
+        case .fog:
             backgroundImageName = "fogBack"
         }
         
+        /// анимационный переход
         if let backgroundImage = UIImage(named: backgroundImageName) {
             UIView.transition(with: self.backgroundImageView,
                               duration: 0.5,
@@ -207,8 +210,8 @@ final class MainViewController: UIViewController {
     
     /// анимация дождя
     func startRainAnimation() {
-        if rainEmitterLayer == nil {
-            let rainLayer = RainEmitterLayer()
+        stopRainAnimation()
+        if let rainLayer = EmitterFactory.createEmitter(of: .rain) {
             rainLayer.frame = animationContainerView.bounds
             animationContainerView.layer.addSublayer(rainLayer)
             rainEmitterLayer = rainLayer
@@ -223,10 +226,11 @@ final class MainViewController: UIViewController {
     /// анимация облаков
     func startCloudAnimation() {
         stopCloudAnimation()
-        let cloudLayer = CloudEmitterLayer()
-        cloudLayer.frame = animationContainerView.bounds
-        animationContainerView.layer.addSublayer(cloudLayer)
-        cloudEmitterLayer = cloudLayer
+        if let cloudLayer = EmitterFactory.createEmitter(of: .overcast) {
+            cloudLayer.frame = animationContainerView.bounds
+            animationContainerView.layer.addSublayer(cloudLayer)
+            cloudEmitterLayer = cloudLayer
+        }
     }
     
     func stopCloudAnimation() {
@@ -234,8 +238,8 @@ final class MainViewController: UIViewController {
         cloudEmitterLayer = nil
     }
     
-    /// анимация молнии
-    func startThunderstormAnimation() {
+    /// анимация грозы
+    func startStormAnimation() {
         if stormAnimationView == nil {
             let lightningView = StormAnimationView(frame: animationContainerView.bounds)
             animationContainerView.addSubview(lightningView)
@@ -247,7 +251,7 @@ final class MainViewController: UIViewController {
         }
     }
     
-    func stopThunderstormAnimation() {
+    func stopStormAnimation() {
         stormAnimationView?.stopLightningAnimation()
         stormAnimationView?.removeFromSuperview()
         stormAnimationView = nil
@@ -269,8 +273,8 @@ final class MainViewController: UIViewController {
     
     /// анимация снега
     func startSnowAnimation() {
-        if snowEmitterLayer == nil {
-            let snowLayer = SnowEmitterLayer()
+        stopSnowAnimation()
+        if let snowLayer = EmitterFactory.createEmitter(of: .snow) {
             snowLayer.frame = animationContainerView.bounds
             animationContainerView.layer.addSublayer(snowLayer)
             snowEmitterLayer = snowLayer
@@ -282,9 +286,10 @@ final class MainViewController: UIViewController {
         snowEmitterLayer = nil
     }
     
+    /// анимация тумана
     func startFogAnimation() {
-        if fogEmitterLayer == nil {
-            let fogLayer = FogEmitterLayer()
+        stopFogAnimation()
+        if let fogLayer = EmitterFactory.createEmitter(of: .fog) {
             fogLayer.frame = animationContainerView.bounds
             animationContainerView.layer.addSublayer(fogLayer)
             fogEmitterLayer = fogLayer

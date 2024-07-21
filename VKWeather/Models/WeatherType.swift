@@ -8,5 +8,5 @@
 import UIKit
 
 enum WeatherType {
-    case clear, cloudy, overcast, rain, thunderstorm, rainbow
+    case clear, overcast, rain, thunderstorm/*, rainbow*/
 }

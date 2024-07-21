@@ -21,8 +21,9 @@ final class MainViewController: UIViewController {
     private var snowEmitterLayer: SnowEmitterLayer?
     private var stormAnimationView: StormAnimationView?
     private var sunAnimationView: SunAnimationView?
+    private var fogEmitterLayer: FogEmitterLayer?
     
-    private let weatherTypes: [WeatherType] = [.clear, .overcast, .rain, .storm, .snow]
+    private let weatherTypes: [WeatherType] = [.clear, .overcast, .rain, .storm, .snow, .wind]
     
     //MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -93,8 +94,7 @@ final class MainViewController: UIViewController {
     }
     
     func setupAnimationContainerView() {
-        
-        animationContainerView = StormAnimationView(frame: view.bounds)
+        animationContainerView = UIView(frame: view.bounds)
         animationContainerView.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(animationContainerView, belowSubview: weatherCollectionView)
         
@@ -112,10 +112,10 @@ final class MainViewController: UIViewController {
         if let index = weatherTypes.firstIndex(of: randomWeather) {
             selectedIndexPath = IndexPath(item: index, section: 0)
         }
-        displayWeather(randomWeather)
+        displayWeather(randomWeather, isRandom: true)
     }
     
-    func displayWeather(_ weather: WeatherType) {
+    func displayWeather(_ weather: WeatherType, isRandom: Bool = false) {
         updateBackgroundImage(for: weather)
         
         // Управление анимацией дождя
@@ -150,6 +150,30 @@ final class MainViewController: UIViewController {
         } else {
             stopSnowAnimation()
         }
+        
+        if weather == .wind {
+            startFogAnimation()
+        } else {
+            stopFogAnimation()
+        }
+        
+        // Перезагрузка коллекции и прокрутка к выбранному элементу, если это рандомный выбор
+        weatherCollectionView.reloadData()
+        if isRandom, weather == .snow || weather == .wind {
+            DispatchQueue.main.async {
+                // Прокрутка до последнего элемента коллекции
+                let lastItemIndex = IndexPath(item: self.weatherTypes.count - 1, section: 0)
+                self.weatherCollectionView.scrollToItem(at: lastItemIndex, at: .right, animated: true)
+            }
+        } else if isRandom, let selectedIndexPath = selectedIndexPath {
+            DispatchQueue.main.async {
+                // Убедитесь, что коллекция перезагружена и элементы видимы
+                let visibleIndexPaths = self.weatherCollectionView.indexPathsForVisibleItems
+                if !visibleIndexPaths.contains(selectedIndexPath) {
+                    self.weatherCollectionView.scrollToItem(at: selectedIndexPath, at: .centeredHorizontally, animated: true)
+                }
+            }
+        }
     }
     
     /// обновление фонового изображения
@@ -167,6 +191,8 @@ final class MainViewController: UIViewController {
             backgroundImageName = "thunderstormBack"
         case .snow:
             backgroundImageName = "snowBack"
+        case .wind:
+            backgroundImageName = "fogBack"
         }
         
         if let backgroundImage = UIImage(named: backgroundImageName) {
@@ -221,7 +247,6 @@ final class MainViewController: UIViewController {
         }
     }
     
-    
     func stopThunderstormAnimation() {
         stormAnimationView?.stopLightningAnimation()
         stormAnimationView?.removeFromSuperview()
@@ -255,6 +280,20 @@ final class MainViewController: UIViewController {
     func stopSnowAnimation() {
         snowEmitterLayer?.removeFromSuperlayer()
         snowEmitterLayer = nil
+    }
+    
+    func startFogAnimation() {
+        if fogEmitterLayer == nil {
+            let fogLayer = FogEmitterLayer()
+            fogLayer.frame = animationContainerView.bounds
+            animationContainerView.layer.addSublayer(fogLayer)
+            fogEmitterLayer = fogLayer
+        }
+    }
+    
+    func stopFogAnimation() {
+        fogEmitterLayer?.removeFromSuperlayer()
+        fogEmitterLayer = nil
     }
 }
 

@@ -119,60 +119,60 @@ final class MainViewController: UIViewController {
     func displayWeather(_ weather: WeatherType, isRandom: Bool = false) {
         updateBackgroundImage(for: weather)
         
-        // Управление анимацией дождя
-        if weather == .rain || weather == .storm {
-            startRainAnimation()
-        } else {
-            stopRainAnimation()
-        }
+        /// управление анимациями
+        manageAnimations(for: weather)
         
-        // Управление анимацией молнии
-        if weather == .storm {
-            startStormAnimation()
-        } else {
-            stopStormAnimation()
-        }
+        /// перезагрузка коллекции и прокрутка к выбранному элементу, если это рандомный выбор
+        reloadAndScrollCollectionView(isRandom: isRandom, weather: weather)
+    }
+    
+    private func manageAnimations(for weather: WeatherType) {
+        /// словарь с методами управления анимацией
+        let animations: [WeatherType: () -> Void] = [
+            .clear: startSunAnimation,
+            .overcast: startCloudAnimation,
+            .rain: startRainAnimation,
+            .storm: startStormAnimation,
+            .snow: startSnowAnimation,
+            .fog: startFogAnimation
+        ]
         
-        // Управление анимацией облаков
-        if weather == .overcast {
-            startCloudAnimation()
-        } else {
-            stopCloudAnimation()
-        }
+        /// словарь с методами остановки анимации
+        let stopAnimations: [WeatherType: () -> Void] = [
+            .clear: stopSunAnimation,
+            .overcast: stopCloudAnimation,
+            .rain: stopRainAnimation,
+            .storm: stopStormAnimation,
+            .snow: stopSnowAnimation,
+            .fog: stopFogAnimation
+        ]
         
-        /// управление анимацией солнца
-        if weather == .clear {
-            startSunAnimation()
-        } else {
-            stopSunAnimation()
-        }
-        
-        /// управление анимацией снега
-        if weather == .snow {
-            startSnowAnimation()
-        } else {
-            stopSnowAnimation()
-        }
-        
-        /// управление анимацией тумана
-        if weather == .fog {
-            startFogAnimation()
-        } else {
-            stopFogAnimation()
-        }
-        
-        /// Перезагрузка коллекции и прокрутка к выбранному элементу, если это рандомный выбор
-        weatherCollectionView.reloadData()
-        if isRandom, weather == .snow || weather == .fog {
-            DispatchQueue.main.async {
-                let lastItemIndex = IndexPath(item: self.weatherTypes.count - 1, section: 0)
-                self.weatherCollectionView.scrollToItem(at: lastItemIndex, at: .right, animated: true)
+        /// запуск анимации
+        for (type, startAnimation) in animations {
+            if weather == type {
+                startAnimation()
+            } else {
+                stopAnimations[type]?()
             }
-        } else if isRandom, let selectedIndexPath = selectedIndexPath {
-            DispatchQueue.main.async {
-                let visibleIndexPaths = self.weatherCollectionView.indexPathsForVisibleItems
-                if !visibleIndexPaths.contains(selectedIndexPath) {
-                    self.weatherCollectionView.scrollToItem(at: selectedIndexPath, at: .centeredHorizontally, animated: true)
+        }
+    }
+    
+    /// прокручивание коллекции на элемент при рандомном выборе
+    private func reloadAndScrollCollectionView(isRandom: Bool, weather: WeatherType) {
+        weatherCollectionView.reloadData()
+        
+        if isRandom {
+            if weather == .snow || weather == .fog {
+                DispatchQueue.main.async {
+                    let lastItemIndex = IndexPath(item: self.weatherTypes.count - 1, section: 0)
+                    self.weatherCollectionView.scrollToItem(at: lastItemIndex, at: .right, animated: true)
+                }
+            } else if let selectedIndexPath = selectedIndexPath {
+                DispatchQueue.main.async {
+                    let visibleIndexPaths = self.weatherCollectionView.indexPathsForVisibleItems
+                    if !visibleIndexPaths.contains(selectedIndexPath) {
+                        self.weatherCollectionView.scrollToItem(at: selectedIndexPath, at: .centeredHorizontally, animated: true)
+                    }
                 }
             }
         }

@@ -21,7 +21,7 @@ final class MainViewController: UIViewController {
     private var stormAnimationView: StormAnimationView?
     private var sunAnimationView: SunAnimationView?
     
-    private let weatherTypes: [WeatherType] = [.clear, .overcast, .rain, .thunderstorm]
+    private let weatherTypes: [WeatherType] = [.clear, .overcast, .rain, .storm]
     
     //MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -117,14 +117,14 @@ final class MainViewController: UIViewController {
         updateBackgroundImage(for: weather)
         
         // Управление анимацией дождя
-        if weather == .rain || weather == .thunderstorm {
+        if weather == .rain || weather == .storm {
             startRainAnimation()
         } else {
             stopRainAnimation()
         }
         
         // Управление анимацией молнии
-        if weather == .thunderstorm {
+        if weather == .storm {
             startThunderstormAnimation()
         } else {
             stopThunderstormAnimation()
@@ -155,7 +155,7 @@ final class MainViewController: UIViewController {
             backgroundImageName = "overcastBack"
         case .rain:
             backgroundImageName = "rainBack"
-        case .thunderstorm:
+        case .storm:
             backgroundImageName = "thunderstormBack"
         }
         

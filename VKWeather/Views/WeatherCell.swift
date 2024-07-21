@@ -44,14 +44,14 @@ final class WeatherCell: UICollectionViewCell {
     func setupLabel() {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 16)
         label.textAlignment = .center
         contentView.addSubview(label)
         
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 5),
             label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            label.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.8),
+            label.widthAnchor.constraint(equalToConstant: 80),
             label.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
@@ -61,16 +61,16 @@ final class WeatherCell: UICollectionViewCell {
         switch weatherType {
         case .clear:
             imageView.image = UIImage(systemName: "sun.max.fill")
-            label.text = "Clear"
+            label.text = "Clear".localized
         case .overcast:
             imageView.image = UIImage(systemName: "smoke.fill")
-            label.text = "Overcast"
+            label.text = "Overcast".localized
         case .rain:
             imageView.image = UIImage(systemName: "cloud.heavyrain.fill")
-            label.text = "Rain"
-        case .thunderstorm:
+            label.text = "Rain".localized
+        case .storm:
             imageView.image = UIImage(systemName: "cloud.bolt.rain.fill")
-            label.text = "Storm"
+            label.text = "Storm".localized
         }
     }
     
@@ -84,4 +84,8 @@ final class WeatherCell: UICollectionViewCell {
             label.textColor = .white
         }
     }
+}
+
+#Preview {
+    WeatherCell()
 }

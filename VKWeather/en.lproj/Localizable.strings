@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  VKWeather
+
+  Created by Анна on 21.07.2024.
+  
+*/
+
+"Clear" = "clear";
+"Overcast" = "overcast";
+"Rain" = "rain";
+"Storm" = "storm";

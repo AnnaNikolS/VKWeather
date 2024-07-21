@@ -44,7 +44,7 @@ final class WeatherCell: UICollectionViewCell {
     func setupLabel() {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 17)
         label.textAlignment = .center
         contentView.addSubview(label)
         
@@ -71,6 +71,9 @@ final class WeatherCell: UICollectionViewCell {
         case .storm:
             imageView.image = UIImage(systemName: "cloud.bolt.rain.fill")
             label.text = "Storm".localized
+        case .snow:
+            imageView.image = UIImage(systemName: "cloud.snow.fill")
+            label.text = "Snow".localized
         }
     }
     

@@ -18,10 +18,11 @@ final class MainViewController: UIViewController {
     
     private var rainEmitterLayer: RainEmitterLayer?
     private var cloudEmitterLayer: CloudEmitterLayer?
+    private var snowEmitterLayer: SnowEmitterLayer?
     private var stormAnimationView: StormAnimationView?
     private var sunAnimationView: SunAnimationView?
     
-    private let weatherTypes: [WeatherType] = [.clear, .overcast, .rain, .storm]
+    private let weatherTypes: [WeatherType] = [.clear, .overcast, .rain, .storm, .snow]
     
     //MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -143,6 +144,12 @@ final class MainViewController: UIViewController {
         } else {
             stopSunAnimation()
         }
+        
+        if weather == .snow {
+            startSnowAnimation()
+        } else {
+            stopSnowAnimation()
+        }
     }
     
     /// обновление фонового изображения
@@ -158,6 +165,8 @@ final class MainViewController: UIViewController {
             backgroundImageName = "rainBack"
         case .storm:
             backgroundImageName = "thunderstormBack"
+        case .snow:
+            backgroundImageName = "snowBack"
         }
         
         if let backgroundImage = UIImage(named: backgroundImageName) {
@@ -231,6 +240,21 @@ final class MainViewController: UIViewController {
     func stopSunAnimation() {
         sunAnimationView?.removeFromSuperview()
         sunAnimationView = nil
+    }
+    
+    /// анимация снега
+    func startSnowAnimation() {
+        if snowEmitterLayer == nil {
+            let snowLayer = SnowEmitterLayer()
+            snowLayer.frame = animationContainerView.bounds
+            animationContainerView.layer.addSublayer(snowLayer)
+            snowEmitterLayer = snowLayer
+        }
+    }
+    
+    func stopSnowAnimation() {
+        snowEmitterLayer?.removeFromSuperlayer()
+        snowEmitterLayer = nil
     }
 }
 

@@ -92,7 +92,8 @@ final class MainViewController: UIViewController {
     }
     
     func setupAnimationContainerView() {
-        animationContainerView = UIView()
+        
+        animationContainerView = StormAnimationView(frame: view.bounds)
         animationContainerView.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(animationContainerView, belowSubview: weatherCollectionView)
         
@@ -171,11 +172,12 @@ final class MainViewController: UIViewController {
     
     /// анимация дождя
     func startRainAnimation() {
-        stopRainAnimation()
-        let rainLayer = RainEmitterLayer()
-        rainLayer.frame = animationContainerView.bounds
-        animationContainerView.layer.addSublayer(rainLayer)
-        rainEmitterLayer = rainLayer
+        if rainEmitterLayer == nil {
+            let rainLayer = RainEmitterLayer()
+            rainLayer.frame = animationContainerView.bounds
+            animationContainerView.layer.addSublayer(rainLayer)
+            rainEmitterLayer = rainLayer
+        }
     }
     
     func stopRainAnimation() {
@@ -199,7 +201,6 @@ final class MainViewController: UIViewController {
     
     /// анимация молнии
     func startThunderstormAnimation() {
-        print("Starting thunderstorm animation")
         if stormAnimationView == nil {
             let lightningView = StormAnimationView(frame: animationContainerView.bounds)
             animationContainerView.addSubview(lightningView)
@@ -236,6 +237,7 @@ final class MainViewController: UIViewController {
 //MARK: - MainViewController
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    //MARK: - UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return weatherTypes.count
     }
@@ -247,6 +249,11 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.setSelected(indexPath == selectedIndexPath)
         
         return cell
+    }
+    
+    //MARK: - UICollectionViewDelegate
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        collectionView.showsHorizontalScrollIndicator = false
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -263,6 +270,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
     }
     
+    //MARK: - UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 80, height: 80)
     }

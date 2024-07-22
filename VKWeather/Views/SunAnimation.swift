@@ -12,7 +12,7 @@ final class SunAnimation: AnimationConfigurable {
     //MARK: - Private Properties
     private var sunView: SunAnimationView?
     
-    //MARK: - Methods
+    //MARK: - AnimationConfigurable
     func startAnimation(in view: UIView) {
         if sunView == nil {
             sunView = SunAnimationView(frame: view.bounds)

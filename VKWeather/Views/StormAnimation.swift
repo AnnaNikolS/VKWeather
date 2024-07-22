@@ -11,28 +11,22 @@ final class StormAnimation: AnimationConfigurable {
     
     //MARK: - Private Properties
     private var stormView: StormAnimationView?
-    private var rainEmitter: RainEmitter?
     
-    //MARK: - Methods
+    //MARK: - AnimationConfigurable
     func startAnimation(in view: UIView) {
         if stormView == nil {
             stormView = StormAnimationView(frame: view.bounds)
             view.addSubview(stormView!)
             stormView?.startLightningAnimation()
-        }
-        
-        if rainEmitter == nil {
-            rainEmitter = RainEmitter()
-            rainEmitter?.startAnimation(in: view)
+            stormView?.startRainAnimation()
         }
     }
     
     func stopAnimation() {
         stormView?.stopLightningAnimation()
+        stormView?.stopRainAnimation()
         stormView?.removeFromSuperview()
         stormView = nil
-        
-        rainEmitter?.stopAnimation()
-        rainEmitter = nil
     }
 }
+

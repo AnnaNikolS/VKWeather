@@ -14,6 +14,7 @@ final class StormAnimationView: UIView {
     private var lightningGlowLayer: CAShapeLayer!
     private var flashView: UIView!
     private var isAnimating = false
+    private var rainEmitterLayer: CAEmitterLayer?
     
     //MARK: - Initializer
     override init(frame: CGRect) {
@@ -100,8 +101,8 @@ final class StormAnimationView: UIView {
         glowDisappearAnimation.fillMode = .forwards
         lightningGlowLayer.add(glowDisappearAnimation, forKey: "glowOpacity")
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            self.scheduleNextLightning()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.7) {
+            self.animateLightning()
         }
     }
     
@@ -133,13 +134,40 @@ final class StormAnimationView: UIView {
             })
         })
     }
+  
+    // MARK: - Rain Animation
+    func startRainAnimation() {
+        stopRainAnimation()
+        let emitterLayer = configureRainEmitter()
+        layer.addSublayer(emitterLayer)
+        self.rainEmitterLayer = emitterLayer
+    }
     
-    /// yстановка следующего удара молнии
-    private func scheduleNextLightning() {
-        guard isAnimating else { return }
-        let delay = Double(arc4random_uniform(3) + 2)
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-            self.animateLightning()
-        }
+    func stopRainAnimation() {
+        rainEmitterLayer?.removeFromSuperlayer()
+        rainEmitterLayer = nil
+    }
+    
+    /// создание дождя отличного от RainEmitter
+    private func configureRainEmitter() -> CAEmitterLayer {
+        let layer = CAEmitterLayer()
+        layer.emitterShape = .line
+        layer.emitterPosition = CGPoint(x: bounds.width / 2, y: -10)
+        layer.emitterSize = CGSize(width: bounds.width, height: 1)
+        layer.emitterCells = [createRainEmitterCell()]
+        return layer
+    }
+    
+    private func createRainEmitterCell() -> CAEmitterCell {
+        let cell = CAEmitterCell()
+        cell.contents = UIImage(named: "drop")!.cgImage
+        cell.birthRate = 190
+        cell.lifetime = 7.0
+        cell.velocity = 1000
+        cell.velocityRange = 400
+        cell.emissionLongitude = .pi
+        cell.scale = 0.025
+        cell.scaleRange = 0.16
+        return cell
     }
 }

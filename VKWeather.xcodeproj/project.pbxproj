@@ -23,6 +23,10 @@
 		E68747E12C4DBBD200E40644 /* SnowEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747E02C4DBBD200E40644 /* SnowEmitter.swift */; };
 		E68747E32C4DBC0400E40644 /* FogEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747E22C4DBC0400E40644 /* FogEmitter.swift */; };
 		E68747E52C4DC00200E40644 /* EmitterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747E42C4DC00200E40644 /* EmitterFactory.swift */; };
+		E68747EF2C4DDD0300E40644 /* AnimationConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747EE2C4DDD0300E40644 /* AnimationConfigurable.swift */; };
+		E68747F12C4DDD4500E40644 /* SunAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747F02C4DDD4500E40644 /* SunAnimation.swift */; };
+		E68747F32C4DDD6200E40644 /* StormAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747F22C4DDD6200E40644 /* StormAnimation.swift */; };
+		E68747F52C4DDD7D00E40644 /* AnimationFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68747F42C4DDD7D00E40644 /* AnimationFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +49,10 @@
 		E68747E02C4DBBD200E40644 /* SnowEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnowEmitter.swift; sourceTree = "<group>"; };
 		E68747E22C4DBC0400E40644 /* FogEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogEmitter.swift; sourceTree = "<group>"; };
 		E68747E42C4DC00200E40644 /* EmitterFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmitterFactory.swift; sourceTree = "<group>"; };
+		E68747EE2C4DDD0300E40644 /* AnimationConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationConfigurable.swift; sourceTree = "<group>"; };
+		E68747F02C4DDD4500E40644 /* SunAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunAnimation.swift; sourceTree = "<group>"; };
+		E68747F22C4DDD6200E40644 /* StormAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StormAnimation.swift; sourceTree = "<group>"; };
+		E68747F42C4DDD7D00E40644 /* AnimationFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +103,7 @@
 			children = (
 				E65A333A2C485508000741D3 /* WeatherType.swift */,
 				E68747DA2C4DBB6F00E40644 /* EmitterConfigurable.swift */,
+				E68747EE2C4DDD0300E40644 /* AnimationConfigurable.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -112,7 +121,9 @@
 			children = (
 				E65A333E2C4857A6000741D3 /* WeatherCell.swift */,
 				E60D65BB2C4BF0C300BE3740 /* StormAnimationView.swift */,
+				E68747F22C4DDD6200E40644 /* StormAnimation.swift */,
 				E60D65BF2C4C1CF200BE3740 /* SunAnimationView.swift */,
+				E68747F02C4DDD4500E40644 /* SunAnimation.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -147,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				E68747E42C4DC00200E40644 /* EmitterFactory.swift */,
+				E68747F42C4DDD7D00E40644 /* AnimationFactory.swift */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -236,9 +248,12 @@
 				E60D65BC2C4BF0C300BE3740 /* StormAnimationView.swift in Sources */,
 				E68747E32C4DBC0400E40644 /* FogEmitter.swift in Sources */,
 				E65A33262C484B71000741D3 /* MainViewController.swift in Sources */,
+				E68747F12C4DDD4500E40644 /* SunAnimation.swift in Sources */,
 				E68747E52C4DC00200E40644 /* EmitterFactory.swift in Sources */,
+				E68747EF2C4DDD0300E40644 /* AnimationConfigurable.swift in Sources */,
 				E68747DB2C4DBB6F00E40644 /* EmitterConfigurable.swift in Sources */,
 				E65A333F2C4857A6000741D3 /* WeatherCell.swift in Sources */,
+				E68747F32C4DDD6200E40644 /* StormAnimation.swift in Sources */,
 				E65A33222C484B71000741D3 /* AppDelegate.swift in Sources */,
 				E68747D22C4D66CD00E40644 /* String+extension.swift in Sources */,
 				E60D65C02C4C1CF200BE3740 /* SunAnimationView.swift in Sources */,
@@ -247,6 +262,7 @@
 				E68747DF2C4DBBBE00E40644 /* CloudEmitter.swift in Sources */,
 				E68747E12C4DBBD200E40644 /* SnowEmitter.swift in Sources */,
 				E65A33242C484B71000741D3 /* SceneDelegate.swift in Sources */,
+				E68747F52C4DDD7D00E40644 /* AnimationFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

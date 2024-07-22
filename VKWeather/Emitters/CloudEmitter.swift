@@ -7,8 +7,12 @@
 
 import UIKit
 
-final class CloudEmitter: EmitterConfigurable {
+final class CloudEmitter: EmitterConfigurable, AnimationConfigurable {
     
+    //MARK: - Private Properties
+    private var emitterLayer: CAEmitterLayer?
+    
+    //MARK: - Methods
     func configure() -> CAEmitterLayer {
         let layer = CAEmitterLayer()
         layer.emitterShape = .rectangle
@@ -30,6 +34,19 @@ final class CloudEmitter: EmitterConfigurable {
         cell.xAcceleration = -0.5
         cell.yAcceleration = 0
         return cell
+    }
+    
+    //MARK: - AnimationConfigurable
+    func startAnimation(in view: UIView) {
+        stopAnimation()
+        let layer = configure()
+        view.layer.addSublayer(layer)
+        self.emitterLayer = layer
+    }
+    
+    func stopAnimation() {
+        emitterLayer?.removeFromSuperlayer()
+        emitterLayer = nil
     }
 }
 

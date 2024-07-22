@@ -7,8 +7,12 @@
 
 import UIKit
 
-final class SnowEmitter: EmitterConfigurable {
+final class SnowEmitter: EmitterConfigurable, AnimationConfigurable {
     
+    //MARK: - Private Properties
+    private var emitterLayer: CAEmitterLayer?
+    
+    //MARK: - Methods
     func configure() -> CAEmitterLayer {
         let layer = CAEmitterLayer()
         layer.emitterShape = .line
@@ -29,6 +33,19 @@ final class SnowEmitter: EmitterConfigurable {
         cell.scale = 0.018
         cell.scaleRange = 0.05
         return cell
+    }
+    
+    //MARK: - AnimationConfigurable
+    func startAnimation(in view: UIView) {
+        stopAnimation()
+        let layer = configure()
+        view.layer.addSublayer(layer)
+        self.emitterLayer = layer
+    }
+    
+    func stopAnimation() {
+        emitterLayer?.removeFromSuperlayer()
+        emitterLayer = nil
     }
 }
 

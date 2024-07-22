@@ -16,13 +16,7 @@ final class MainViewController: UIViewController {
     private var animationContainerView: UIView!
     private var selectedIndexPath: IndexPath?
     
-    private var rainEmitterLayer: CAEmitterLayer?
-    private var cloudEmitterLayer: CAEmitterLayer?
-    private var snowEmitterLayer: CAEmitterLayer?
-    private var fogEmitterLayer: CAEmitterLayer?
-    
-    private var stormAnimationView: StormAnimationView?
-    private var sunAnimationView: SunAnimationView?
+    private var currentAnimation: AnimationConfigurable?
     
     private let weatherTypes: [WeatherType] = [.clear, .overcast, .rain, .storm, .snow, .fog]
     
@@ -118,42 +112,17 @@ final class MainViewController: UIViewController {
     
     func displayWeather(_ weather: WeatherType, isRandom: Bool = false) {
         updateBackgroundImage(for: weather)
-        
-        /// управление анимациями
         manageAnimations(for: weather)
-        
         /// перезагрузка коллекции и прокрутка к выбранному элементу, если это рандомный выбор
         reloadAndScrollCollectionView(isRandom: isRandom, weather: weather)
     }
     
     private func manageAnimations(for weather: WeatherType) {
-        /// словарь с методами управления анимацией
-        let animations: [WeatherType: () -> Void] = [
-            .clear: startSunAnimation,
-            .overcast: startCloudAnimation,
-            .rain: startRainAnimation,
-            .storm: startStormAnimation,
-            .snow: startSnowAnimation,
-            .fog: startFogAnimation
-        ]
+        currentAnimation?.stopAnimation()
         
-        /// словарь с методами остановки анимации
-        let stopAnimations: [WeatherType: () -> Void] = [
-            .clear: stopSunAnimation,
-            .overcast: stopCloudAnimation,
-            .rain: stopRainAnimation,
-            .storm: stopStormAnimation,
-            .snow: stopSnowAnimation,
-            .fog: stopFogAnimation
-        ]
-        
-        /// запуск анимации
-        for (type, startAnimation) in animations {
-            if weather == type {
-                startAnimation()
-            } else {
-                stopAnimations[type]?()
-            }
+        if let newAnimation = AnimationFactory.createAnimation(for: weather) {
+            newAnimation.startAnimation(in: animationContainerView)
+            currentAnimation = newAnimation
         }
     }
     
@@ -206,99 +175,6 @@ final class MainViewController: UIViewController {
                 self?.backgroundImageView.image = backgroundImage
             }, completion: nil)
         }
-    }
-    
-    /// анимация дождя
-    func startRainAnimation() {
-        stopRainAnimation()
-        if let rainLayer = EmitterFactory.createEmitter(of: .rain) {
-            rainLayer.frame = animationContainerView.bounds
-            animationContainerView.layer.addSublayer(rainLayer)
-            rainEmitterLayer = rainLayer
-        }
-    }
-    
-    func stopRainAnimation() {
-        rainEmitterLayer?.removeFromSuperlayer()
-        rainEmitterLayer = nil
-    }
-    
-    /// анимация облаков
-    func startCloudAnimation() {
-        stopCloudAnimation()
-        if let cloudLayer = EmitterFactory.createEmitter(of: .overcast) {
-            cloudLayer.frame = animationContainerView.bounds
-            animationContainerView.layer.addSublayer(cloudLayer)
-            cloudEmitterLayer = cloudLayer
-        }
-    }
-    
-    func stopCloudAnimation() {
-        cloudEmitterLayer?.removeFromSuperlayer()
-        cloudEmitterLayer = nil
-    }
-    
-    /// анимация грозы
-    func startStormAnimation() {
-        if stormAnimationView == nil {
-            let lightningView = StormAnimationView(frame: animationContainerView.bounds)
-            animationContainerView.addSubview(lightningView)
-            stormAnimationView = lightningView
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.stormAnimationView?.startLightningAnimation()
-        }
-    }
-    
-    func stopStormAnimation() {
-        stormAnimationView?.stopLightningAnimation()
-        stormAnimationView?.removeFromSuperview()
-        stormAnimationView = nil
-    }
-    
-    /// анимация ясной погоды
-    func startSunAnimation() {
-        if sunAnimationView == nil {
-            let sunView = SunAnimationView()
-            animationContainerView.addSubview(sunView)
-            sunAnimationView = sunView
-        }
-    }
-    
-    func stopSunAnimation() {
-        sunAnimationView?.removeFromSuperview()
-        sunAnimationView = nil
-    }
-    
-    /// анимация снега
-    func startSnowAnimation() {
-        stopSnowAnimation()
-        if let snowLayer = EmitterFactory.createEmitter(of: .snow) {
-            snowLayer.frame = animationContainerView.bounds
-            animationContainerView.layer.addSublayer(snowLayer)
-            snowEmitterLayer = snowLayer
-        }
-    }
-    
-    func stopSnowAnimation() {
-        snowEmitterLayer?.removeFromSuperlayer()
-        snowEmitterLayer = nil
-    }
-    
-    /// анимация тумана
-    func startFogAnimation() {
-        stopFogAnimation()
-        if let fogLayer = EmitterFactory.createEmitter(of: .fog) {
-            fogLayer.frame = animationContainerView.bounds
-            animationContainerView.layer.addSublayer(fogLayer)
-            fogEmitterLayer = fogLayer
-        }
-    }
-    
-    func stopFogAnimation() {
-        fogEmitterLayer?.removeFromSuperlayer()
-        fogEmitterLayer = nil
     }
 }
 

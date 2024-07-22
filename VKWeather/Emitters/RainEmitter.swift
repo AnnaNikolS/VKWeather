@@ -7,8 +7,12 @@
 
 import UIKit
 
-final class RainEmitter: EmitterConfigurable {
+final class RainEmitter: EmitterConfigurable, AnimationConfigurable {
     
+    //MARK: - Private Properties
+    private var emitterLayer: CAEmitterLayer?
+    
+    //MARK: - Methods
     func configure() -> CAEmitterLayer {
         let layer = CAEmitterLayer()
         layer.emitterShape = .line
@@ -29,5 +33,18 @@ final class RainEmitter: EmitterConfigurable {
         cell.scale = 0.025
         cell.scaleRange = 0.16
         return cell
+    }
+    
+    //MARK: - AnimationConfigurable
+    func startAnimation(in view: UIView) {
+        stopAnimation()
+        let layer = configure()
+        view.layer.addSublayer(layer)
+        self.emitterLayer = layer
+    }
+    
+    func stopAnimation() {
+        emitterLayer?.removeFromSuperlayer()
+        emitterLayer = nil
     }
 }

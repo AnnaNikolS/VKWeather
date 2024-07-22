@@ -7,8 +7,12 @@
 
 import UIKit
 
-final class FogEmitter: EmitterConfigurable {
+final class FogEmitter: EmitterConfigurable, AnimationConfigurable {
     
+    //MARK: - Private Properties
+    private var emitterLayer: CAEmitterLayer?
+    
+    //MARK: - Methods
     func configure() -> CAEmitterLayer {
         let layer = CAEmitterLayer()
         layer.emitterShape = .line
@@ -29,6 +33,19 @@ final class FogEmitter: EmitterConfigurable {
         cell.scale = 0.45
         cell.yAcceleration = 0.2
         return cell
+    }
+    
+    //MARK: - AnimationConfigurable
+    func startAnimation(in view: UIView) {
+        stopAnimation()
+        let layer = configure()
+        view.layer.addSublayer(layer)
+        self.emitterLayer = layer
+    }
+    
+    func stopAnimation() {
+        emitterLayer?.removeFromSuperlayer()
+        emitterLayer = nil
     }
 }
 
